@@ -1,0 +1,86 @@
+name: icloud-caldav
+version: 0.3.0
+manifest_version: 2
+api_version: 1
+description: Kalends calendar sidebar for Hermes, with iCloud sync and per-calendar access controls
+license: MIT
+tags: [calendar, caldav, icloud]
+python_dependencies:
+  - "httpx>=0.27,<1"
+  - "icalendar>=6,<8"
+  - "python-dateutil>=2.9,<3"
+  - "recurring-ical-events>=3.3,<4"
+provides_tools:
+  - icloud_calendars_list
+  - icloud_events_query
+  - icloud_event_get
+  - icloud_event_create
+  - icloud_event_update
+  - icloud_event_delete
+  - icloud_event_move
+config_schema:
+  weather_consent:
+    type: bool
+    default: false
+    label: Enable optional forecast
+    description: Send only the forecast coordinates entered below to Pirate Weather. Calendar access does not require weather.
+  forecast_latitude:
+    type: str
+    default: ""
+    label: Forecast latitude
+    description: Explicit forecast location, from -90 to 90. No automatic location.
+  forecast_longitude:
+    type: str
+    default: ""
+    label: Forecast longitude
+    description: Explicit forecast location, from -180 to 180.
+  pirate_weather_key:
+    type: secret
+    env: KALENDS_PIRATE_WEATHER_KEY
+    label: Pirate Weather API key
+    description: Optional forecast key stored by Hermes on the selected backend profile.
+  sonarr_consent:
+    type: bool
+    default: false
+    label: Enable Sonarr TV calendar
+    description: Allow Kalends to read this feed when TV is shown in Media.
+  sonarr_ical_url:
+    type: secret
+    env: KALENDS_SONARR_ICAL_URL
+    label: Sonarr iCalendar URL
+    description: Credential-bearing feed URL; stored by Hermes for this backend profile. Use a private IPv4 literal.
+  sonarr_allow_http:
+    type: bool
+    default: false
+    label: Allow unencrypted Sonarr HTTP
+    description: Trusted LAN only. HTTP sends the feed credential without encryption.
+  radarr_consent:
+    type: bool
+    default: false
+    label: Enable Radarr movie calendar
+    description: Allow Kalends to read this feed when Movies is shown in Media.
+  radarr_ical_url:
+    type: secret
+    env: KALENDS_RADARR_ICAL_URL
+    label: Radarr iCalendar URL
+    description: Credential-bearing feed URL; stored by Hermes for this backend profile. Use a private IPv4 literal.
+  radarr_allow_http:
+    type: bool
+    default: false
+    label: Allow unencrypted Radarr HTTP
+    description: Trusted LAN only. HTTP sends the feed credential without encryption.
+  server_url:
+    type: str
+    default: "https://caldav.icloud.com"
+    label: iCloud CalDAV URL
+    description: Fixed iCloud endpoint. Arbitrary CalDAV servers are not supported in this release.
+  apple_id:
+    type: str
+    default: ""
+    label: Apple ID
+    description: The Apple ID used for iCloud CalDAV authentication.
+  app_password:
+    type: secret
+    env: ICLOUD_CALDAV_APP_PASSWORD
+    label: App-specific password
+    description: Stored by Hermes on the backend profile, never in plugin browser storage or tool arguments.
